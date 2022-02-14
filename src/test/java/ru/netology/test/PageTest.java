@@ -1,6 +1,7 @@
 package ru.netology.test;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 import ru.netology.page.LoginPage;
@@ -24,7 +25,7 @@ public class PageTest {
         verificationPage.validVerify((DataHelper.VerificationCode) verificationCode);
     }
 
-    @AfterAll
+    @AfterEach
     void shouldCleanData() throws SQLException {
         DataHelper dataHelper = new DataHelper();
         dataHelper.cleanDataFromTable();

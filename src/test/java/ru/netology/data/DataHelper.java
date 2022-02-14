@@ -44,11 +44,11 @@ public class DataHelper {
     }
 
     public void cleanDataFromTable() {
-        String clearSQL = "DELETE * FROM auth_codes WHERE created < NOW() - INTERVAL 5 MINUTES;";
+        String clearSQL = "DELETE FROM auth_codes;";
         var runner = new QueryRunner();
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app"
                 , "pass")) {
-            var code = runner.query(conn, clearSQL, new ScalarHandler<String>());
+            var code = runner.update(conn, clearSQL);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
