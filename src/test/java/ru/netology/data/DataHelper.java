@@ -1,6 +1,8 @@
 package ru.netology.data;
 
 import lombok.Value;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,10 +29,17 @@ public class DataHelper {
         private String code;
     }
 
-    public static PreparedStatement getVerificationCodeFor() throws SQLException {
-        String dataSQL = "SELECT code FROM auth_codes ORDER BY created DESC LIMIT 1;";
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
-        PreparedStatement preparedVerificationCode = conn.prepareStatement(dataSQL);
-        return preparedVerificationCode;
+    public static VerificationCode getVerificationCodeFor(String login) {
+        String dataSQL = "SELECT code FROM auth_codes INNER JOIN users ON auth_codes.user_id = users.id " +
+                "WHERE users.login = ? ORDER BY created DESC LIMIT 1;";
+        var runner = new QueryRunner();
+        try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app"
+                , "pass")) {
+            var code = runner.query(conn, dataSQL, new ScalarHandler<String>(), login);
+            return new VerificationCode(code);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return null;
     }
 }

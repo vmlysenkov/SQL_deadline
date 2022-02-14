@@ -10,16 +10,16 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class PageTest {
 
-    public PageTest() throws SQLException {
+    public PageTest()  {
     }
 
     @Test
-    void shouldLogIn() throws SQLException {
-        open("http://0.0.0.0:9999/");
+    void shouldLogIn() {
+        open("http://localhost:9999/");
         var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = DataHelper.getVerificationCodeFor();
+        var verificationCode = DataHelper.getVerificationCodeFor(authInfo.getLogin());
         verificationPage.validVerify((DataHelper.VerificationCode) verificationCode);
     }
 }
