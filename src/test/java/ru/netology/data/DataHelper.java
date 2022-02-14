@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class DataHelper {
 
-    private DataHelper() throws SQLException {
+    public DataHelper() throws SQLException {
     }
 
     @Value
@@ -42,4 +42,16 @@ public class DataHelper {
         }
         return null;
     }
+
+    public void cleanDataFromTable() {
+        String clearSQL = "DELETE * FROM auth_codes WHERE created < NOW() - INTERVAL 5 MINUTES;";
+        var runner = new QueryRunner();
+        try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app"
+                , "pass")) {
+            var code = runner.query(conn, clearSQL, new ScalarHandler<String>());
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
 }
+

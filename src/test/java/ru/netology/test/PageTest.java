@@ -1,5 +1,6 @@
 package ru.netology.test;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 import ru.netology.page.LoginPage;
@@ -21,5 +22,11 @@ public class PageTest {
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo.getLogin());
         verificationPage.validVerify((DataHelper.VerificationCode) verificationCode);
+    }
+
+    @AfterAll
+    void shouldCleanData() throws SQLException {
+        DataHelper dataHelper = new DataHelper();
+        dataHelper.cleanDataFromTable();
     }
 }
