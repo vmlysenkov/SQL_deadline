@@ -4,9 +4,7 @@ import lombok.Value;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DataHelper {
@@ -45,10 +43,12 @@ public class DataHelper {
 
     public void cleanDataFromTable() {
         String clearSQL = "DELETE FROM auth_codes;";
+        String clearSQL1 = "DELETE FROM users;";
         var runner = new QueryRunner();
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app"
                 , "pass")) {
             var code = runner.update(conn, clearSQL);
+            var code1 = runner.update(conn, clearSQL1);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
