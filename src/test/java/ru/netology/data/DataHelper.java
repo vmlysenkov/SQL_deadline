@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class DataHelper {
 
-    public DataHelper() throws SQLException {
+    public DataHelper() {
     }
 
     @Value
@@ -42,13 +42,15 @@ public class DataHelper {
     }
 
     public void cleanDataFromTable() {
-        String clearSQL = "DELETE FROM auth_codes;";
-        String clearSQL1 = "DELETE FROM users;";
+        String clearCodes = "DELETE FROM auth_codes;";
+        String clearCards = "DELETE FROM cards;";
+        String clearUsers = "DELETE FROM users;";
         var runner = new QueryRunner();
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app"
                 , "pass")) {
-            var code = runner.update(conn, clearSQL);
-            var code1 = runner.update(conn, clearSQL1);
+            var code = runner.update(conn, clearCodes);
+            var card = runner.update(conn, clearCards);
+            var user = runner.update(conn, clearUsers);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

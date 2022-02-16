@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 import ru.netology.page.LoginPage;
 
-import java.sql.SQLException;
-
 import static com.codeborne.selenide.Selenide.open;
 
 public class PageTest {
@@ -25,7 +23,7 @@ public class PageTest {
     }
 
     @AfterEach
-    void shouldCleanData() throws SQLException {
+    void shouldCleanData() {
         DataHelper dataHelper = new DataHelper();
         dataHelper.cleanDataFromTable();
     }
